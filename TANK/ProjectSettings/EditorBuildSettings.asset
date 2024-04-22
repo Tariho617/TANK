@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Horita.unity
+    guid: 98d925b9e2cd1904d811d6f25a90ac0c
   m_configObjects: {}
