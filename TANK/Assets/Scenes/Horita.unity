@@ -259,7 +259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 347ad99c82795e34ea8e5673d69040aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _avatarPrefab: {fileID: 3725530020446253800, guid: 9aa0bfa44fa1cf542a78742b3139c763, type: 3}
+  _avatarPrefab: {fileID: 2956212713522259269, guid: 9aa0bfa44fa1cf542a78742b3139c763, type: 3}
 --- !u!1 &737327141
 GameObject:
   m_ObjectHideFlags: 0
@@ -299,6 +299,50 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.98441863, y: 2.4819455, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1594431316
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1594431318}
+  - component: {fileID: 1594431317}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1594431317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1594431316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71da437d6835a9f4d9d08149e3684901, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1594431318
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1594431316}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 960, y: 540, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -404,5 +448,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 352937466}
   - {fileID: 1833072674}
+  - {fileID: 1594431318}
   - {fileID: 495439432}
   - {fileID: 737327143}

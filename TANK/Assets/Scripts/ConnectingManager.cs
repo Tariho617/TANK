@@ -42,6 +42,7 @@ public class ConnectingManager : MonoBehaviourPunCallbacks
     /// </summary>
     public override void OnJoinedRoom()
     {
+
         // ランダムな座標に自身のアバター（ネットワークオブジェクト）を生成する
         _startPosition = new Vector3(Random.Range(-3f, 3f), Random.Range(-3f, 3f));
         PhotonNetwork.Instantiate("Avatar", _startPosition, Quaternion.identity);

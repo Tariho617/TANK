@@ -10,24 +10,23 @@ using System.Collections.Generic;
 
 public class AvatarPrefabPool : MonoBehaviour, IPunPrefabPool
 {
-
     #region 変数  
     /// <summary>
     /// アバタープレハブを格納する
     /// </summary>
     [SerializeField]
     [Header("Avatarプレハブを設定する"), Tooltip("Avatar")]
-    private GameObject _avatarPrefab = default;
+    private AvatarController _avatarPrefab = default;
 
     /// <summary>
     /// シーンへ表示・非アクティブ化するアバターを格納する
     /// </summary>
-    private GameObject _avatar = default;
+    private AvatarController _avatar = default;
 
     /// <summary>
     /// 生成されたアバタープレハブを格納する
     /// </summary>
-    private Stack<GameObject> _inactiveObjectPool = new Stack<GameObject>();
+    private Stack<AvatarController> _inactiveObjectPool = new Stack<AvatarController>();
     #endregion
 
     #region メソッド  
@@ -74,7 +73,7 @@ public class AvatarPrefabPool : MonoBehaviour, IPunPrefabPool
      void IPunPrefabPool.Destroy(GameObject gameObject)
      {
         //コンポーネント取得
-        _avatar = gameObject.GetComponent<GameObject>();
+        _avatar = gameObject.GetComponent<AvatarController>();
         //非アクティブ化したアバターをプッシュする
         _inactiveObjectPool.Push(_avatar);
      }
