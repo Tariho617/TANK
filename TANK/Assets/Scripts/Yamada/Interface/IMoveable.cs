@@ -9,5 +9,5 @@ using System.Collections;
 
 public interface IMoveable
 {
-    void Move();
+    void Move(Vector3 moveDireection);
 }

@@ -259,11 +259,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7099021743702830104}
-  - component: {fileID: 237624049204894110}
   - component: {fileID: 1614471109195604115}
   - component: {fileID: 7006588924697259089}
   - component: {fileID: 2552848534276506421}
   - component: {fileID: 8022233942670490715}
+  - component: {fileID: 1938351307707865530}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -288,27 +288,6 @@ Transform:
   - {fileID: 1930557331692329435}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &237624049204894110
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7516994655355167588}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 2, y: 1, z: 3}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &1614471109195604115
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -334,7 +313,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &7006588924697259089
 MonoBehaviour:
@@ -362,7 +341,19 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2552848534276506421}
+        m_TargetAssemblyTypeName: PlayerInputManager, Assembly-CSharp
+        m_MethodName: OnMove
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 4343bb87-75b2-46de-ac6e-90f744894e35
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
@@ -370,7 +361,19 @@ MonoBehaviour:
     m_ActionId: 24323d4c-b8e9-49a5-9403-0527864bdee6
     m_ActionName: Player/Look[/Mouse/delta]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2552848534276506421}
+        m_TargetAssemblyTypeName: PlayerInputManager, Assembly-CSharp
+        m_MethodName: OnShot
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: d1aaab55-91d3-4f1f-acd6-977eb022654a
     m_ActionName: Player/Fire[/Mouse/leftButton]
   - m_PersistentCalls:
@@ -442,3 +445,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74a5519b88d9ba54fa241e59a5f8e0b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1938351307707865530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7516994655355167588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1757eb3392817d443a6a5c7d5fdc137b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moveSpeed: 1
+  _rotationSpeed: 1
+  _caterpillar: {fileID: 1267467362685977300}
