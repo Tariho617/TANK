@@ -7,7 +7,6 @@ TagManager:
   - Text
   - RegistCanvas
   - InputField
-  - Obstacle
   layers:
   - Default
   - TransparentFX
