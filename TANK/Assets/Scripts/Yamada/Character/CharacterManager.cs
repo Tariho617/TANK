@@ -7,7 +7,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class CharacterManager : MonoBehaviour, IMoveable, IShootable
+public class CharacterManager : MonoBehaviour
 {
 
     #region 変数  
@@ -20,15 +20,5 @@ public class CharacterManager : MonoBehaviour, IMoveable, IShootable
 
     #region メソッド  
     
-    public void Move()
-    {
-        
-    }
-
-    public void Shot()
-    {
-        
-    }
-
     #endregion
 }
