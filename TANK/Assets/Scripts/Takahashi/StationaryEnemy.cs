@@ -1,13 +1,16 @@
 // ---------------------------------------------------------  
-// #SCRIPTNAME#.cs  
+// StationaryEnemy.cs  
 //   
-// 作成日:  
-// 作成者:  
+// 作成日:  2024/6/3
+// 作成者:  髙橋光栄
 // ---------------------------------------------------------  
 using UnityEngine;
 using System.Collections;
 
-public class #SCRIPTNAME# : MonoBehaviour
+/// <summary>
+/// 固定砲台のエネミーを制御するクラス
+/// </summary>
+public class StationaryEnemy : EnemyManager
 {
   
     #region 変数  
@@ -17,13 +20,15 @@ public class #SCRIPTNAME# : MonoBehaviour
     #region プロパティ  
   
     #endregion
-    
+  
+    #region メソッド  
+  
      /// <summary>  
      /// 初期化処理  
      /// </summary>  
      private void Awake()
      {
-        
+
      }
   
      /// <summary>  
@@ -31,7 +36,7 @@ public class #SCRIPTNAME# : MonoBehaviour
      /// </summary>  
      private void Start ()
      {
-
+  
      }
   
      /// <summary>  
@@ -39,14 +44,14 @@ public class #SCRIPTNAME# : MonoBehaviour
      /// </summary>  
      private void Update ()
      {
-
+        PlayerTargetingRay();
      }
 
-    #region privateメソッド群  
-  
-    #endregion
-
-    #region publicメソッド群
+    public override void Shot()
+    {
+        base.Shot();
+        print("撃った");
+    }
 
     #endregion
 }

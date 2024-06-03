@@ -1,13 +1,13 @@
 // ---------------------------------------------------------  
-// #SCRIPTNAME#.cs  
+// MineLayerEnemy.cs  
 //   
-// 作成日:  
-// 作成者:  
+// 作成日:  2024/6/3
+// 作成者:  髙橋光栄
 // ---------------------------------------------------------  
 using UnityEngine;
 using System.Collections;
 
-public class #SCRIPTNAME# : MonoBehaviour
+public class MineLayerEnemy : MonoBehaviour
 {
   
     #region 変数  
@@ -17,36 +17,30 @@ public class #SCRIPTNAME# : MonoBehaviour
     #region プロパティ  
   
     #endregion
-    
+  
+    #region メソッド  
+  
      /// <summary>  
      /// 初期化処理  
      /// </summary>  
-     private void Awake()
+     void Awake()
      {
-        
      }
   
      /// <summary>  
      /// 更新前処理  
      /// </summary>  
-     private void Start ()
+     void Start ()
      {
-
+  
      }
   
      /// <summary>  
      /// 更新処理  
      /// </summary>  
-     private void Update ()
+     void Update ()
      {
-
      }
-
-    #region privateメソッド群  
   
-    #endregion
-
-    #region publicメソッド群
-
     #endregion
 }
