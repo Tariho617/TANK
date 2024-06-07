@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1267467362685977300}
   - component: {fileID: 6970323732795816382}
   - component: {fileID: 604263575384600447}
+  - component: {fileID: 798166205978018821}
   m_Layer: 0
   m_Name: Catapillar
   m_TagString: Untagged
@@ -83,6 +84,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &798166205978018821
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42709154180281468}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &937327437191192385
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,6 +286,7 @@ GameObject:
   - component: {fileID: 2552848534276506421}
   - component: {fileID: 8022233942670490715}
   - component: {fileID: 1938351307707865530}
+  - component: {fileID: 8624991304325927337}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -457,6 +480,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1757eb3392817d443a6a5c7d5fdc137b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 1
-  _rotationSpeed: 1
+  _moveSpeed: 5
+  _rotationSpeed: 5
   _caterpillar: {fileID: 1267467362685977300}
+--- !u!114 &8624991304325927337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7516994655355167588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2f991ada4d4640488f6e2848fc0113a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _battery: {fileID: 937327437191192385}

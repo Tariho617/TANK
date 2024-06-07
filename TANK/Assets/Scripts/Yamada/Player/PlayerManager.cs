@@ -15,7 +15,7 @@ public class PlayerManager : CharacterManager, IShootable, IMoveable
 
     private PlayerInputManager _playerInputManager = default;
     private CharacterMove _move = default;
-
+    private CharacterShot _shot = default;
 
     #endregion
 
@@ -25,14 +25,19 @@ public class PlayerManager : CharacterManager, IShootable, IMoveable
 
     #region メソッド  
 
-    private void Awake()
+    private void Start()
     {
         _playerInputManager = GetComponent<PlayerInputManager>();
-        _move = GetComponent<CharacterMove>();
-        _playerInputManager.MoveInput.Subscribe(_ => Move(_));
-        _playerInputManager.ShotInput.Subscribe(_ => Shot());
 
-        
+        if (TryGetComponent(out _move))
+        {
+            _playerInputManager.MoveInput.Subscribe(moveDirection => Move(moveDirection));
+        }
+
+        if (TryGetComponent(out _shot))
+        {
+            _playerInputManager.ShotInput.Subscribe(_ => Shot());
+        }
     }
 
 
@@ -43,7 +48,7 @@ public class PlayerManager : CharacterManager, IShootable, IMoveable
 
     public void Shot()
     {
-        
+        _shot.Shooting();
     }
 
     
