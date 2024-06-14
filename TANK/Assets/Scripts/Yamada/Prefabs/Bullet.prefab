@@ -149,3 +149,4 @@ MonoBehaviour:
   _speed: 10
   _reflectionLimit: 1
   _lifeTime: 100
+  _bulletStatus: {fileID: 11400000, guid: 4dce064ff1488e042866b8cb15fc5b08, type: 2}

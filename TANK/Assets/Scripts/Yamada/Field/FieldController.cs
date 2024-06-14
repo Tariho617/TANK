@@ -51,6 +51,9 @@ public class FieldController : MonoBehaviour
         GenerateWalls();
     }
 
+    /// <summary>
+    /// 壁生成
+    /// </summary>
     private void GenerateWalls()
     {
         GameObject generateObject;
@@ -65,15 +68,14 @@ public class FieldController : MonoBehaviour
                 }
             }
         }
-        MargeWalls();
-    }
-
-    private void MargeWalls()
-    {
         SearchRow();
         SearchColumn();
     }
 
+
+    /// <summary>
+    /// 行探索
+    /// </summary>
     private void SearchRow()
     {
         for (int y = 0; y < _fieldData.GetLength(0); y++)
@@ -103,6 +105,9 @@ public class FieldController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 列探索
+    /// </summary>
     private void SearchColumn()
     {
         for (int x = 0; x < _fieldData.GetLength(1); x++)
@@ -132,12 +137,19 @@ public class FieldController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 統合壁生成
+    /// </summary>
+    /// <param name="startY">Y軸開始位置</param>
+    /// <param name="startX">X軸開始位置</param>
+    /// <param name="length">長さ</param>
+    /// <param name="isHorizontal">探索方向フラグ</param>
     private void GenerateMargeWall(int startY, int startX, int length, bool isHorizontal)
     {
         GameObject generateObject = Instantiate(_margeWallPrefab, this.transform);
         Transform objectTransform = generateObject.transform;
 
-        // 縦が続いていた場合
+        // 横が続いていた場合
         if (isHorizontal)
         {
             objectTransform.position = new Vector3(

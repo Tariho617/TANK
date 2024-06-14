@@ -5,11 +5,7 @@ using System;
 
 public class Bullet : PoolObject, IDamageable
 {
-    [SerializeField]
-    private float _speed = default;
-
-    [SerializeField]
-    private int _reflectionLimit = default;
+    #region 変数
 
     // 反射数のカウント変数
     private int _reflectionCount = default;
@@ -20,31 +16,57 @@ public class Bullet : PoolObject, IDamageable
     // 移動方向
     private Vector3 _moveDirection = default;
 
-    // 生存時間タイマー
-    private IDisposable _lifeTimeTimer = default;
-
-    // 生存時間
-    [SerializeField]
-    private float _lifeTime = 10f;
-
-    private Subject<Unit> _lifeTimeSubject = new();
-    public IObservable<Unit> OnLifeTime => _lifeTimeSubject;
-
+    // 衝突判定制御用フラグ
     private bool _ignoreCollisions = default;
 
+    #endregion
+
+
+    /// <summary>  
+    /// 更新前処理  
+    /// </summary>
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
 
+        CollsionDetection();
+
+        Move();
+
+    }
+
+    #region privateメソッド群
+
+    /// <summary>
+    /// 移動
+    /// </summary>
+    private void Move()
+    {
+        // 移動方向に速度をかけて進む
+        this.FixedUpdateAsObservable()
+            .Where(_ => _bulletData._speed > 0f)
+            .Subscribe(_ =>
+            {
+                _rigidbody.velocity = _moveDirection * _bulletData._speed;
+            });
+    }
+
+    /// <summary>
+    /// 当たり判定
+    /// </summary>
+    private void CollsionDetection()
+    {
         // 衝突処理
         this.OnCollisionEnterAsObservable()
+            // 衝突無視状態のときは処理しない
             .Where(_ => !_ignoreCollisions)
-            .Subscribe(collision => 
+            .Subscribe(collision =>
             {
                 // ダメージを与えられる場合
                 IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
-                if(damageable != null)
+                if (damageable != null)
                 {
+
                     // ダメージを与え、弾を返却し、処理終了
                     damageable.ReceiveDamage();
                     HideObject();
@@ -52,20 +74,23 @@ public class Bullet : PoolObject, IDamageable
                 }
 
                 // 反射数が限界値以上の場合
-                if (_reflectionCount >= _reflectionLimit)
+                if (_reflectionCount >= _bulletData._reflections)
                 {
-                    
+
                     // 弾を返却し、処理終了
                     HideObject();
                     return;
                 }
 
+                // 多段判定阻止---------------------------------
+                // 衝突無視状態にする
                 _ignoreCollisions = true;
 
-                // 一定時間後にフラグをリセット
+                // 衝突無視を解除
                 Observable.TimerFrame(1)
                     .Subscribe(_ => _ignoreCollisions = false)
                     .AddTo(this);
+                // ---------------------------------------------
 
                 // 反射数を加算
                 _reflectionCount++;
@@ -84,63 +109,47 @@ public class Bullet : PoolObject, IDamageable
 
             });
 
-        // 移動方向に速度をかけて進む
-        this.FixedUpdateAsObservable()
-            .Where(_ => _speed > 0f)
-            .Subscribe(_ =>
+        this.OnTriggerEnterAsObservable()
+            .Subscribe(collision =>
             {
-                _rigidbody.velocity = _moveDirection * _speed;
+                // ダメージを与えられる場合
+                IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
+                if (damageable != null)
+                {
+                    // ダメージを与え、弾を返却し、処理終了
+                    damageable.ReceiveDamage();
+                    HideObject();
+                    return;
+                }
             });
-
-        // 非アクティブ時処理
-        this.OnDisableAsObservable()
-            .Subscribe(_ =>
-            {
-                // 初期化
-                _reflectionCount = 0;
-                _lifeTimeTimer?.Dispose();
-
-            })
-            .AddTo(this);
-            
-    }
-
-
-    public override void AppearanceObject()
-    {
-        // 移動方向を正面に設定
-        _moveDirection = transform.forward;
-        _ignoreCollisions = false;
-        // 生存時間を過ぎると強制的に返却
-       _lifeTimeTimer = Observable.Timer(TimeSpan.FromSeconds(_lifeTime))
-           .Subscribe(_ =>
-           {
-
-               HideObject();
-
-           })
-           .AddTo(this);
-
-        //_lifeTimeTimer = Observable.Timer(TimeSpan.FromSeconds(_lifeTime / 2), TimeSpan.FromSeconds(_lifeTime / 10))
-        //    .Subscribe(time =>
-        //    {
-        //        _lifeTimeSubject.OnNext(Unit.Default);
-        //        if (time + (_lifeTime / 2) >= _lifeTime)
-        //        {
-        //            print("時間切れ");
-        //            HideObject();
-        //        }
-        //    })
-        //    .AddTo(this);
     }
 
     protected override void HideObject()
     {
-        ObjectPoolController.instance.Collect(this, _objectTypeNumber);
+        base.HideObject();
+        _reflectionCount = 0;
+    }
+
+    #endregion
+
+    #region publicメソッド群
+
+    public override void AppearanceObject(int poolObjectNumber)
+    {
+        base.AppearanceObject(poolObjectNumber);
+        // 移動方向を正面に設定
+        _moveDirection = transform.forward;
+        // 衝突判定制御用フラグを偽に
+        _ignoreCollisions = false;
+
+        _reflectionCount = 0;
     }
 
     public void ReceiveDamage()
     {
-        
+        print("相殺");
     }
+
+    #endregion
+
 }

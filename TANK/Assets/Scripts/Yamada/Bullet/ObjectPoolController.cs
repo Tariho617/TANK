@@ -32,10 +32,10 @@ public class ObjectPoolController : MonoBehaviour
 
     #endregion
 
-    #region メソッド
+    
 
     /// <summary>
-    /// 起動時の処理
+    /// 起動時処理
     /// </summary>
     private void Awake()
     {
@@ -69,22 +69,24 @@ public class ObjectPoolController : MonoBehaviour
         }
     }
 
+    #region publicメソッド群
+
     /// <summary>
     /// オブジェクト貸し出しメソッド
     /// </summary>
     /// <param name="spawnPosition">出現位置</param>
     /// <param name="angle">出現時の角度</param>
     /// <returns>借りるオブジェクト</returns>
-    public PoolObject Lend(Vector3 spawnPosition, Quaternion angle)
+    public PoolObject Lend(Vector3 spawnPosition, Quaternion angle, int poolObjectNumber)
     {
         // Queueが空ならnullを渡す
-        if (_poolList[0].Count <= 0)
+        if (_poolList[poolObjectNumber].Count <= 0)
         {
             return null;
         }
 
         // Queueから指定したオブジェクトを一つ取り出す
-        PoolObject lendObject = _poolList[0].Dequeue();
+        PoolObject lendObject = _poolList[poolObjectNumber].Dequeue();
 
         // 渡された座標に移動
         lendObject.transform.position = spawnPosition;
@@ -93,7 +95,7 @@ public class ObjectPoolController : MonoBehaviour
         lendObject.transform.rotation = angle;
 
         // 出現メソッドを呼び出す
-        lendObject.AppearanceObject();
+        lendObject.AppearanceObject(poolObjectNumber);
 
         // オブジェクトを表示する
         lendObject.gameObject.SetActive(true);
@@ -106,14 +108,14 @@ public class ObjectPoolController : MonoBehaviour
     /// オブジェクト回収メソッド
     /// </summary>
     /// <param name="collectObject">回収するオブジェクト</param>
-    /// <param name="objectTypeNumber">回収するオブジェクトの判別番号</param>
-    public void Collect(PoolObject collectObject, int objectTypeNumber)
+    /// <param name="poolObjectNumber">回収するオブジェクトの判別番号</param>
+    public void Collect(PoolObject collectObject, int poolObjectNumber)
     {
         // オブジェクトを非表示
         collectObject.gameObject.SetActive(false);
 
         // 回収したオブジェクトをQueueに再度追加
-        _poolList[objectTypeNumber].Enqueue(collectObject);
+        _poolList[poolObjectNumber].Enqueue(collectObject);
     }
 
     #endregion

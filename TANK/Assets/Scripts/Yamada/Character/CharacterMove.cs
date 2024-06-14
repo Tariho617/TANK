@@ -1,24 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
+// ---------------------------------------------------------  
+// CharacterMove.cs  
+//   
+// 作成日:  6/13
+// 作成者:  山田智哉
+// ---------------------------------------------------------
 using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
 
 public class CharacterMove : MonoBehaviour
 {
-    private Vector3 _moveDirection = default;
+    #region 変数
+    [SerializeField, Tooltip("キャタピラ")]
+    protected Transform _caterpillar = default;
 
-    [SerializeField]
-    private float _moveSpeed = 1f;
-    [SerializeField]
-    private float _rotationSpeed = 1f;
+    // 移動方向格納用
+    protected Vector3 _moveDirection = default;
 
-    [SerializeField]
-    private Transform _caterpillar = default;
+    // 移動速度格納用
+    protected float _moveSpeed = default;
 
+    // 回転速度定数
+    protected const float ROTATION_SPEED = 5f;
+    #endregion
 
+    /// <summary>
+    /// 更新前処理
+    /// </summary>
     private void Start()
     {
+        // 移動値0以外でアップデート処理を実行
         this.FixedUpdateAsObservable()
             .Where(_ => _moveDirection != Vector3.zero)
             .Subscribe(_ =>
@@ -27,10 +38,18 @@ public class CharacterMove : MonoBehaviour
             });
     }
 
+    #region publicメソッド群
 
-    public void MoveDirection(Vector3 moveDirection)
+    /// <summary>
+    /// 移動
+    /// </summary>
+    /// <param name="moveDirection">移動方向</param>
+    /// <param name="moveSpeed">移動速度</param>
+    public void Moving(Vector3 moveDirection, float moveSpeed)
     {
         _moveDirection = moveDirection;
+
+        _moveSpeed = moveSpeed;
     }
 
     /// <summary>
@@ -38,13 +57,16 @@ public class CharacterMove : MonoBehaviour
     /// </summary>
     public void Movement()
     {
+        // 移動方向を整理
         Vector3 movementDirection = new Vector3(_moveDirection.x, 0, _moveDirection.y);
 
         // キャタピラの方向を入力方向に向ける
         Quaternion targetRotation = Quaternion.LookRotation(movementDirection);
         _caterpillar.rotation =
-            Quaternion.Slerp(_caterpillar.rotation, targetRotation, Time.fixedDeltaTime * _rotationSpeed);
+            Quaternion.Slerp(_caterpillar.rotation, targetRotation, Time.fixedDeltaTime * ROTATION_SPEED);
 
+        // 移動
         transform.position += movementDirection * Time.fixedDeltaTime * _moveSpeed;
     }
+    #endregion
 }

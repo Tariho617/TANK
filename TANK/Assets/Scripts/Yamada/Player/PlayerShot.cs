@@ -1,23 +1,25 @@
 // ---------------------------------------------------------  
 // PlayerShot.cs  
 //   
-// 作成日:  
-// 作成者:  
+// 作成日:  6/12
+// 作成者:  山田智哉
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections;
-using System;
 using UniRx;
+using System;
 
 public class PlayerShot : CharacterShot
 {
-  
+
     #region 変数  
-  
+
+    // カメラ
+    private Camera _mainCamera = default;
+
     #endregion
-  
+
     #region プロパティ  
-  
+
     #endregion
     
     /// <summary>  
@@ -25,15 +27,18 @@ public class PlayerShot : CharacterShot
     /// </summary>  
     private void Awake()
     {
-        
-    }
-  
-    /// <summary>  
-    /// 更新前処理  
-    /// </summary>  
-    private void Start ()
-    {
+        // キャッシュ
+        _mainCamera = Camera.main;
 
+        // 狙う方向の更新を購読
+        _targetDirection.Subscribe(_ =>
+        {
+            // 角度を取得
+            float angle = GetAim(Vector3.zero, _targetDirection.Value);
+
+            // 砲台の向きを調整
+            _battery.eulerAngles = new Vector3(0, -angle + 90f, 0);
+        });
     }
 
     /// <summary>  
@@ -41,16 +46,13 @@ public class PlayerShot : CharacterShot
     /// </summary>  
     private void Update()
     {
-        Vector3 mousePosition = Camera.main.WorldToScreenPoint(transform.position);
-        _targetDirection = Input.mousePosition - mousePosition;
-        float angle = GetAim(Vector3.zero, _targetDirection);
+        // カメラからのマウス位置を取得
+        Vector3 mousePosition = _mainCamera.WorldToScreenPoint(transform.position);
 
-        _battery.transform.eulerAngles = new Vector3(0, -angle + 90f, 0);
-
+        // 狙う方向を取得
+        _targetDirection.Value = Input.mousePosition - mousePosition;
+        
     }
-
-
-
 
     #region privateメソッド群 
     
@@ -80,10 +82,10 @@ public class PlayerShot : CharacterShot
 
     #region publicメソッド群
 
-    public override void Shooting()
+    public override void Shooting(int maxRapidFire)
     {
         // 発射上限以上はリターン
-        if (_rapidFireCount >= RAPID_FIRE_LIMIT)
+        if (_rapidFireCount >= maxRapidFire)
         {
             return;
         }
@@ -93,17 +95,23 @@ public class PlayerShot : CharacterShot
         {
             // 非同期処理
             Observable.Timer(TimeSpan.FromSeconds(RAPID_FIRE_COOLTIME))
+                // クールタイム終了で連射カウントを初期化
                 .Subscribe(_ => _rapidFireCount = 0)
                 .AddTo(this);
         }
 
-        Vector3 shotDirection = _targetDirection - transform.position;
+        // 発射方向
+        Vector3 shotDirection = _targetDirection.Value - transform.position;
 
+        // 弾を発射
         ObjectPoolController.instance.Lend
             (transform.TransformPoint(
-                _battery.transform.forward * SHOT_POSITION_DISTANCE + new Vector3(0, transform.localScale.z, 0)),
-                Quaternion.LookRotation(new Vector3(shotDirection.x, 0, shotDirection.y))
+                _battery.forward * SHOT_POSITION_DISTANCE + new Vector3(0, transform.localScale.z * SHOT_POSITION_HEIGHT, 0)),
+                Quaternion.LookRotation(new Vector3(shotDirection.x, 0, shotDirection.y)),
+                0
             );
+
+        // 連射カウントを加算
         _rapidFireCount++;
 
     }

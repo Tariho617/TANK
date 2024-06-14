@@ -1,33 +1,29 @@
 // ---------------------------------------------------------  
 // CharacterShot.cs  
 //   
-// 作成日:  
-// 作成者:  
+// 作成日:  6/10
+// 作成者:  山田智哉
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
-using System.Collections.Generic;
+using UniRx;
 
 public abstract class CharacterShot : MonoBehaviour
 {
 
     #region 変数  
 
-    [SerializeField]
-    protected GameObject _battery = default;
+    [SerializeField, Tooltip("砲台")]
+    protected Transform _battery = default;
 
-    // 自機から狙う位置の方向
-    protected Vector3 _targetDirection = default;
+    // 自機から狙う方向
+    protected ReactiveProperty<Vector3> _targetDirection = new();
 
     // 連射数
     protected int _rapidFireCount = 0;
 
     // 弾の発射位置調整定数
-    protected const float SHOT_POSITION_DISTANCE = 4f;
-
-    // 最大連射数
-    protected const int RAPID_FIRE_LIMIT = 5;
+    protected const float SHOT_POSITION_DISTANCE = 7f;
+    protected const float SHOT_POSITION_HEIGHT = 5f;
 
     // 連射クールタイム
     protected const float RAPID_FIRE_COOLTIME = 3f;
@@ -36,31 +32,9 @@ public abstract class CharacterShot : MonoBehaviour
 
     #region プロパティ  
 
+    public IReadOnlyReactiveProperty<Vector3> TargetDirection => _targetDirection;
+
     #endregion
-
-    /// <summary>  
-    /// 初期化処理  
-    /// </summary>  
-    private void Awake()
-    {
-        
-    }
-  
-    /// <summary>  
-    /// 更新前処理  
-    /// </summary>  
-    private void Start ()
-    {
-
-    }
-  
-    /// <summary>  
-    /// 更新処理  
-    /// </summary>  
-    private void Update ()
-    {
-
-    }
 
     #region privateメソッド群  
 
@@ -71,7 +45,8 @@ public abstract class CharacterShot : MonoBehaviour
     /// <summary>
     /// 射撃
     /// </summary>
-    public abstract void Shooting();
+    /// <param name="maxRapidFire">最大連射数</param>
+    public abstract void Shooting(int maxRapidFire);
 
     #endregion
 }

@@ -1,13 +1,14 @@
 // ---------------------------------------------------------  
 // IDamageable.cs  
 //   
-// 作成日:  
-// 作成者:  
+// 作成日:  6/10
+// 作成者:  山田智哉
 // ---------------------------------------------------------  
-using UnityEngine;
-using System.Collections;
 
 public interface IDamageable
 {
+    /// <summary>
+    /// 被弾
+    /// </summary>
     void ReceiveDamage();
 }
