@@ -1,16 +1,13 @@
 // ---------------------------------------------------------  
-// StationaryEnemy.cs  
+// EnemyObjectPool.cs  
 //   
-// 作成日:  2024/6/3
-// 作成者:  髙橋光栄
+// 作成日:  
+// 作成者:  
 // ---------------------------------------------------------  
 using UnityEngine;
 using System.Collections;
 
-/// <summary>
-/// 固定砲台のエネミーを制御するクラス
-/// </summary>
-public class StationaryEnemy : EnemyManager
+public class EnemyObjectPool : MonoBehaviour
 {
   
     #region 変数  
@@ -20,8 +17,7 @@ public class StationaryEnemy : EnemyManager
     #region プロパティ  
   
     #endregion
-  
-  
+    
      /// <summary>  
      /// 初期化処理  
      /// </summary>  
@@ -35,7 +31,7 @@ public class StationaryEnemy : EnemyManager
      /// </summary>  
      private void Start ()
      {
-  
+
      }
   
      /// <summary>  
@@ -43,24 +39,14 @@ public class StationaryEnemy : EnemyManager
      /// </summary>  
      private void Update ()
      {
-        PlayerTargetingRay();
+
      }
 
     #region privateメソッド群  
-
+  
     #endregion
 
     #region publicメソッド群
-
-    public override void Shot()
-    {
-        base.Shot();
-
-        print("撃った");
-
-        // ショットクールタイム制御
-        EnemyShotCoolTime();
-    }
 
     #endregion
 }

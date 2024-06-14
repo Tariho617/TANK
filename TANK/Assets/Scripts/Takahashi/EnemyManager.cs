@@ -5,10 +5,18 @@
 // 作成者:  髙橋光栄
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections;
+using Cysharp.Threading.Tasks;
+using System;
 
 public class EnemyManager : CharacterManager,IShootable
 {
+    #region 取得関連
+
+    [SerializeField, Tooltip("エネミーのスクリプタブルオブジェクト格納用")]
+    private EnemyData _enemyData = default;
+
+
+    #endregion
 
     #region 変数
 
@@ -16,10 +24,10 @@ public class EnemyManager : CharacterManager,IShootable
     private GameObject _player = default;
 
     [SerializeField, Tooltip("Rayの長さ")]
-    private float _rayLength = 100f;
+    private float _rayLength = default;
 
-    // 障害物のレイヤー
-    public LayerMask obstacleLayer;
+    // 現在、エネミーは撃てるか(true = 撃てる)
+    private bool _isFire = true;
 
     #endregion
 
@@ -27,8 +35,39 @@ public class EnemyManager : CharacterManager,IShootable
 
     #endregion
 
-    #region メソッド  
+    /// <summary>  
+    /// 初期化処理  
+    /// </summary>  
+    private void Awake()
+    {
 
+    }
+
+    /// <summary>  
+    /// 更新前処理  
+    /// </summary>  
+    private void Start()
+    {
+
+    }
+
+    /// <summary>  
+    /// 更新処理  
+    /// </summary>  
+    private void Update()
+    {
+
+    }
+
+    #region privateメソッド群  
+
+    #endregion
+
+    #region publicメソッド群
+
+    /// <summary>
+    /// エネミーのRayを制御するメソッド
+    /// </summary>
     public void PlayerTargetingRay()
     {
         if (_player == null)
@@ -47,9 +86,11 @@ public class EnemyManager : CharacterManager,IShootable
         if (Physics.Raycast(ray, out hit, _rayLength))
         {
 
-            if (hit.collider.gameObject.CompareTag("Player"))
+            // RayがプレイヤーにHitしていて尚且つ、撃てる状態か
+            if (hit.collider.gameObject.CompareTag("Player")&&_isFire)
             {
                 Debug.Log("プレイヤーにRayがHit!");
+                _isFire = false;
                 Shot();
             }
             else
@@ -57,6 +98,15 @@ public class EnemyManager : CharacterManager,IShootable
                 Debug.Log("障害物にRayがHit!");
             }
         }
+    }
+
+    /// <summary>
+    /// ショットクールタイム制御
+    /// </summary>
+    protected async void EnemyShotCoolTime()
+    {
+        await UniTask.Delay(TimeSpan.FromSeconds(_enemyData.EnemyShotCoolTime));
+        _isFire = true;
     }
 
     /// <summary>
