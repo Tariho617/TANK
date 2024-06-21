@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 174edbfd536a56843845c1393b29441f, type: 3}
-  m_Name: CharacterStatus(Player)
+  m_Name: CharacterStatus(Enemy)
   m_EditorClassIdentifier: 
   _characterData:
     _maxRapidFire: 5
     _maxMineSet: 2
-    _moveSpeed: 10
+    _moveSpeed: 5
     _shotCoolTime: 3
-    _shotBulletType: 1
+    _shotBulletType: 2

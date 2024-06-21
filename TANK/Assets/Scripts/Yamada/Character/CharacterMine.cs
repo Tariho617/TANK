@@ -32,7 +32,7 @@ public class CharacterMine : MonoBehaviour
         }
         
         // 地雷をプールから借り、取得
-        PoolObject mineObject = ObjectPoolController.instance.Lend(transform.position, Quaternion.identity, 1);
+        PoolObject mineObject = ObjectPoolController.instance.Lend(transform.position, Quaternion.identity, 0);
         
         // 地雷の破棄イベントを購読
         mineObject.OnDestroy.Subscribe(_ => 

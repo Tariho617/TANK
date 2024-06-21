@@ -6,7 +6,7 @@
 // ---------------------------------------------------------  
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ScriptableObject/CreatCharacterStatus")]
+[CreateAssetMenu(menuName = "ScriptableObject/CreateCharacterStatus")]
 public class CharacterStatus : ScriptableObject
 {
     public CharacterData _characterData = default;

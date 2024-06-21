@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class FieldController : MonoBehaviour
@@ -10,34 +11,13 @@ public class FieldController : MonoBehaviour
     [SerializeField]
     private GameObject _margeWallPrefab = default;
 
-    private int[,] _fieldData =
-    {
-        {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 },
-        {1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
-        {1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
-        {1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
-        {1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
-        {1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
-        {1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
-        {1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
-        {1,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,1 },
-        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1 },
-        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1 },
-        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1 },
-        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1 },
-        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1 },
-        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1 },
-        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1 },
-        {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 },
-    };
+    // 現在のフィールド配列
+    private int[,] _currentField = default;
 
-    /// <summary>
-    /// フィールドのオブジェクト:
-    /// 0,なし/
-    /// 1,壁/
-    /// 2,壊れる壁/
-    /// 3,進入禁止
-    /// </summary>
+    // CSVファイルのパス
+    private string _csvFilePath = "Assets/Resources/FieldData/FieldData1.csv";
+
+    // フィールドのオブジェクト
     private enum FieldObject
     {
         None,
@@ -48,6 +28,31 @@ public class FieldController : MonoBehaviour
 
     void Start()
     {
+        LoadCSVFile();
+        
+    }
+
+    private void LoadCSVFile()
+    {
+        // CSVファイルを読み込む
+        string[] lines = File.ReadAllLines(_csvFilePath);
+
+        // 行数と列数を取得
+        int rowCount = lines.Length;
+        int colCount = lines[0].Split(',').Length;
+
+        // _currentFieldを初期化
+        _currentField = new int[rowCount, colCount];
+
+        // CSVファイルの内容をパースして二次元配列に格納
+        for (int y = 0; y < rowCount; y++)
+        {
+            string[] lineData = lines[y].Split(',');
+            for (int x = 0; x < colCount; x++)
+            {
+                _currentField[y, x] = int.Parse(lineData[x]);
+            }
+        }
         GenerateWalls();
     }
 
@@ -57,11 +62,11 @@ public class FieldController : MonoBehaviour
     private void GenerateWalls()
     {
         GameObject generateObject;
-        for (int y = 0; y < _fieldData.GetLength(0); y++)
+        for (int y = 0; y < _currentField.GetLength(0); y++)
         {
-            for (int x = 0; x < _fieldData.GetLength(1); x++)
+            for (int x = 0; x < _currentField.GetLength(1); x++)
             {
-                if (_fieldData[y, x] == (int)FieldObject.Wall)
+                if (_currentField[y, x] == (int)FieldObject.Wall)
                 {
                     generateObject = Instantiate(_wallPrefab, this.transform);
                     generateObject.transform.position = new Vector3(x, 0, -y);
@@ -78,12 +83,12 @@ public class FieldController : MonoBehaviour
     /// </summary>
     private void SearchRow()
     {
-        for (int y = 0; y < _fieldData.GetLength(0); y++)
+        for (int y = 0; y < _currentField.GetLength(0); y++)
         {
             int wallCount = 0;
-            for (int x = 0; x < _fieldData.GetLength(1); x++)
+            for (int x = 0; x < _currentField.GetLength(1); x++)
             {
-                if (_fieldData[y, x] == (int)FieldObject.Wall)
+                if (_currentField[y, x] == (int)FieldObject.Wall)
                 {
                     wallCount++;
                 }
@@ -100,7 +105,7 @@ public class FieldController : MonoBehaviour
 
             if (wallCount > 1)
             {
-                GenerateMargeWall(y, _fieldData.GetLength(1) - wallCount, wallCount, true);
+                GenerateMargeWall(y, _currentField.GetLength(1) - wallCount, wallCount, true);
             }
         }
     }
@@ -110,12 +115,12 @@ public class FieldController : MonoBehaviour
     /// </summary>
     private void SearchColumn()
     {
-        for (int x = 0; x < _fieldData.GetLength(1); x++)
+        for (int x = 0; x < _currentField.GetLength(1); x++)
         {
             int wallCount = 0;
-            for (int y = 0; y < _fieldData.GetLength(0); y++)
+            for (int y = 0; y < _currentField.GetLength(0); y++)
             {
-                if (_fieldData[y, x] == (int)FieldObject.Wall)
+                if (_currentField[y, x] == (int)FieldObject.Wall)
                 {
                     wallCount++;
                 }
@@ -132,7 +137,7 @@ public class FieldController : MonoBehaviour
 
             if (wallCount > 1)
             {
-                GenerateMargeWall(_fieldData.GetLength(0) - wallCount, x, wallCount, false);
+                GenerateMargeWall(_currentField.GetLength(0) - wallCount, x, wallCount, false);
             }
         }
     }

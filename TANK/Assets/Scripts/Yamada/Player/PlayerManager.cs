@@ -64,7 +64,7 @@ public class PlayerManager : CharacterManager, IShootable, IMoveable, IMineSetta
 
     public void Shot()
     {
-        _shot.Shooting(_characterData._maxRapidFire);
+        _shot.Shooting(_characterData._shotBulletType, _characterData._maxRapidFire, _characterData._shotCoolTime);
     }
 
     public void MineSet()

@@ -82,7 +82,7 @@ public class PlayerShot : CharacterShot
 
     #region publicメソッド群
 
-    public override void Shooting(int maxRapidFire)
+    public override void Shooting(CharacterData.BulletType shotBulletType , int maxRapidFire, float coolTime)
     {
         // 発射上限以上はリターン
         if (_rapidFireCount >= maxRapidFire)
@@ -94,7 +94,7 @@ public class PlayerShot : CharacterShot
         if (_rapidFireCount == 0)
         {
             // 非同期処理
-            Observable.Timer(TimeSpan.FromSeconds(RAPID_FIRE_COOLTIME))
+            Observable.Timer(TimeSpan.FromSeconds(coolTime))
                 // クールタイム終了で連射カウントを初期化
                 .Subscribe(_ => _rapidFireCount = 0)
                 .AddTo(this);
@@ -108,7 +108,7 @@ public class PlayerShot : CharacterShot
             (transform.TransformPoint(
                 _battery.forward * SHOT_POSITION_DISTANCE + new Vector3(0, transform.localScale.z * SHOT_POSITION_HEIGHT, 0)),
                 Quaternion.LookRotation(new Vector3(shotDirection.x, 0, shotDirection.y)),
-                0
+                (int)shotBulletType
             );
 
         // 連射カウントを加算

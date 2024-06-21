@@ -22,11 +22,8 @@ public abstract class CharacterShot : MonoBehaviour
     protected int _rapidFireCount = 0;
 
     // 弾の発射位置調整定数
-    protected const float SHOT_POSITION_DISTANCE = 7f;
+    protected const float SHOT_POSITION_DISTANCE = 6f;
     protected const float SHOT_POSITION_HEIGHT = 5f;
-
-    // 連射クールタイム
-    protected const float RAPID_FIRE_COOLTIME = 3f;
 
     #endregion
 
@@ -36,17 +33,13 @@ public abstract class CharacterShot : MonoBehaviour
 
     #endregion
 
-    #region privateメソッド群  
-
-    #endregion
-
     #region publicメソッド群
 
     /// <summary>
     /// 射撃
     /// </summary>
     /// <param name="maxRapidFire">最大連射数</param>
-    public abstract void Shooting(int maxRapidFire);
+    public abstract void Shooting(CharacterData.BulletType shotBulletType, int maxRapidFire, float coolTime);
 
     #endregion
 }
