@@ -1,15 +1,15 @@
 // ---------------------------------------------------------  
-// StationaryEnemy.cs  
+// NormalEnemy.cs  
 //   
-// 作成日:  2024/6/3
+// 作成日:  2024.7.1
 // 作成者:  髙橋光栄
 // ---------------------------------------------------------  
 using UnityEngine;
 
 /// <summary>
-/// 固定砲台のエネミーを制御するクラス
+/// 標準エネミーを制御するクラス
 /// </summary>
-public class StationaryEnemy : EnemyManager
+public class NormalEnemy : EnemyManager
 {
 
     #region 変数  
@@ -18,16 +18,15 @@ public class StationaryEnemy : EnemyManager
     private EnemyObjectPool _enemyObjectPool = default;
 
     #endregion
-  
+
     #region プロパティ  
-  
+
     #endregion
-  
-  
-     /// <summary>  
-     /// 初期化処理  
-     /// </summary>  
-     private void Awake()
+
+    /// <summary>  
+    /// 初期化処理  
+    /// </summary>  
+    private void Awake()
      {
         
      }
@@ -37,14 +36,16 @@ public class StationaryEnemy : EnemyManager
      /// </summary>  
      private void Start ()
      {
-  
+
      }
   
      /// <summary>  
      /// 更新処理  
      /// </summary>  
-     private void Update ()
+     protected override void Update ()
      {
+        base.Update();
+        // Ray処理
         PlayerTargetingRay();
      }
 
@@ -58,6 +59,7 @@ public class StationaryEnemy : EnemyManager
     {
         base.Shot();
 
+
         // プレイヤーの方向に弾を発射
         Vector3 direction = (_playerPos - transform.position).normalized;
         Quaternion rotation = Quaternion.LookRotation(direction);
@@ -66,6 +68,5 @@ public class StationaryEnemy : EnemyManager
         // ショットクールタイム制御
         EnemyShotCoolTime();
     }
-
     #endregion
 }
