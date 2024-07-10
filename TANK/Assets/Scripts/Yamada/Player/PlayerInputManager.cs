@@ -17,8 +17,9 @@ public class PlayerInputManager : MonoBehaviour
 
     protected ReactiveProperty<Vector3> _moveInput = new();
    
-
     protected Subject<Unit> _shotInput = new();
+
+    protected Subject<Unit> _mineInput = new();
 
     #endregion
 
@@ -27,6 +28,8 @@ public class PlayerInputManager : MonoBehaviour
     public IReadOnlyReactiveProperty<Vector3> MoveInput => _moveInput;
 
     public IObservable<Unit> ShotInput => _shotInput;
+
+    public IObservable<Unit> MineInput => _mineInput;
 
     #endregion
 
@@ -42,6 +45,14 @@ public class PlayerInputManager : MonoBehaviour
         if (context.phase == InputActionPhase.Started)
         {
             _shotInput.OnNext(Unit.Default);
+        }
+    }
+
+    public void OnMine(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            _mineInput.OnNext(Unit.Default);
         }
     }
 
