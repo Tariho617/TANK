@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f181ea89bb881e646a4ace5b1f7db53d, type: 3}
   m_Name: NormalEnemy_Data
   m_EditorClassIdentifier: 
-  _enemyShotCoolTime: 1
+  _enemyMinShotCoolTime: 1
+  _enemyMaxShotCoolTime: 4
   _enemyShotSpped: 10
   _enemyMoveSpeed: 10
   _changeDirectionTime: 2
@@ -20,6 +21,7 @@ MonoBehaviour:
   _targetReachedThreshold: 0.2
   _enemyMaxPoolCount: 10
   _enemyShotDisplayTime: 3
-  _checkPlayerPosTime: 3
-  _escapeResetStateTime: 3
+  _checkPlayerPosMinTime: 3
+  _checkPlayerPosMaxTime: 6
+  _escapeResetStateTime: 5
   _chaseResetStateTime: 5

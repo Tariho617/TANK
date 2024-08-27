@@ -8,8 +8,11 @@ using UnityEngine;
 [CreateAssetMenu(menuName ="Enemy_Data")]
 public class EnemyData : ScriptableObject
 {
-    [SerializeField][Header("エネミーのショットクールタイム")]
-    private float _enemyShotCoolTime = default;
+    [SerializeField][Header("エネミーのランダム最小クールタイム")]
+    private float _enemyMinShotCoolTime = default;
+
+    [SerializeField][Header("エネミーのランダム最大クールタイム")]
+    private float _enemyMaxShotCoolTime = default;
 
     [SerializeField][Header("エネミーのショットスピード")]
     private float _enemyShotSpped = default;
@@ -32,8 +35,11 @@ public class EnemyData : ScriptableObject
     [SerializeField][Header("エネミーショットの存在時間")]
     private float _enemyShotDisplayTime = default;
 
-    [SerializeField][Header("エネミーがプレイヤーをサーチする間隔")]
-    private float _checkPlayerPosTime = default;
+    [SerializeField][Header("エネミーがプレイヤーをサーチする最小間隔")]
+    private float _checkPlayerPosMinTime = default;
+
+    [SerializeField][Header("エネミーがプレイヤーをサーチする最大間隔")]
+    private float _checkPlayerPosMaxTime = default;
 
     [SerializeField][Header("逃亡状態をリセットするまでの時間")]
     private float _escapeResetStateTime = default;
@@ -43,17 +49,19 @@ public class EnemyData : ScriptableObject
 
     #region プロパティ
 
-    public float EnemyShotCoolTime { get => _enemyShotCoolTime;}
     public float EnemyMoveSpeed { get => _enemyMoveSpeed;}
     public int EnemyMaxPoolCount { get => _enemyMaxPoolCount;}
     public float EnemyShotDisplayTime { get => _enemyShotDisplayTime;}
     public float EnemyShotSpped { get => _enemyShotSpped;}
-    public float CheckPlayerPosTime { get => _checkPlayerPosTime;}
     public float ChangeDirectionTime { get => _changeDirectionTime;}
     public float RandomMoveRange { get => _randomMoveRange;}
     public float TargetReachedThreshold { get => _targetReachedThreshold;}
     public float EscapeResetStateTime { get => _escapeResetStateTime;}
     public float ChaseResetStateTime { get => _chaseResetStateTime;}
+    public float EnemyMinShotCoolTime { get => _enemyMinShotCoolTime;}
+    public float EnemyMaxShotCoolTime { get => _enemyMaxShotCoolTime;}
+    public float CheckPlayerPosMinTime { get => _checkPlayerPosMinTime;}
+    public float CheckPlayerPosMaxTime { get => _checkPlayerPosMaxTime;}
 
     #endregion
 }

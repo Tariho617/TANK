@@ -27,27 +27,19 @@ public class NormalEnemy : EnemyManager
     /// 初期化処理  
     /// </summary>  
     private void Awake()
-     {
+    {
         
-     }
-  
-     /// <summary>  
-     /// 更新前処理  
-     /// </summary>  
-     private void Start ()
-     {
+    }
 
-     }
-  
-     /// <summary>  
-     /// 更新処理  
-     /// </summary>  
-     protected override void Update ()
-     {
+    /// <summary>  
+    /// 更新処理  
+    /// </summary>  
+    protected override void Update()
+    {
         base.Update();
         // Ray処理
         PlayerTargetingRay();
-     }
+    }
 
     #region privateメソッド群  
 
@@ -58,15 +50,6 @@ public class NormalEnemy : EnemyManager
     public override void Shot()
     {
         base.Shot();
-
-
-        // プレイヤーの方向に弾を発射
-        Vector3 direction = (_playerPos - transform.position).normalized;
-        Quaternion rotation = Quaternion.LookRotation(direction);
-        _enemyObjectPool.EnemyShotLaunch(transform.position, rotation);
-
-        // ショットクールタイム制御
-        EnemyShotCoolTime();
     }
     #endregion
 }

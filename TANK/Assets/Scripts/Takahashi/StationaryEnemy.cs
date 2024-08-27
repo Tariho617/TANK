@@ -43,7 +43,7 @@ public class StationaryEnemy : EnemyManager
      /// <summary>  
      /// 更新処理  
      /// </summary>  
-     private void Update ()
+     private new void Update ()
      {
         PlayerTargetingRay();
      }
@@ -57,14 +57,6 @@ public class StationaryEnemy : EnemyManager
     public override void Shot()
     {
         base.Shot();
-
-        // プレイヤーの方向に弾を発射
-        Vector3 direction = (_playerPos - transform.position).normalized;
-        Quaternion rotation = Quaternion.LookRotation(direction);
-        _enemyObjectPool.EnemyShotLaunch(transform.position, rotation);
-
-        // ショットクールタイム制御
-        EnemyShotCoolTime();
     }
 
     #endregion
