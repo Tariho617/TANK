@@ -38,7 +38,7 @@ public class CharacterManager : MonoBehaviour, IDamageable
 
     public void ReceiveDamage()
     {
-        
+        this.gameObject.SetActive(false);
     }
 
     #endregion

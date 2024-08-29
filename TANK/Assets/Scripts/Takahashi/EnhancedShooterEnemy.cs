@@ -7,6 +7,9 @@
 using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// 強化弾を撃つエネミーを制御するクラス
+/// </summary>
 public class EnhancedShooterEnemy : MonoBehaviour
 {
   

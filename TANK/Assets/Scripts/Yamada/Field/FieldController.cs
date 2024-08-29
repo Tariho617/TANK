@@ -15,7 +15,11 @@ public class FieldController : MonoBehaviour
     private int[,] _currentField = default;
 
     // CSVファイルのパス
-    private string _csvFilePath = "Assets/Resources/FieldData/FieldData1.csv";
+    private string _csvFilePath = "Assets/Resources/FieldData/FieldData2.csv";
+
+    #region プロパティ
+    public int[,] CurrentField { get => _currentField; set => _currentField = value; }
+    #endregion
 
     // フィールドのオブジェクト
     private enum FieldObject
@@ -42,7 +46,7 @@ public class FieldController : MonoBehaviour
         int colCount = lines[0].Split(',').Length;
 
         // _currentFieldを初期化
-        _currentField = new int[rowCount, colCount];
+        CurrentField = new int[rowCount, colCount];
 
         // CSVファイルの内容をパースして二次元配列に格納
         for (int y = 0; y < rowCount; y++)
@@ -50,7 +54,7 @@ public class FieldController : MonoBehaviour
             string[] lineData = lines[y].Split(',');
             for (int x = 0; x < colCount; x++)
             {
-                _currentField[y, x] = int.Parse(lineData[x]);
+                CurrentField[y, x] = int.Parse(lineData[x]);
             }
         }
         GenerateWalls();
@@ -62,11 +66,11 @@ public class FieldController : MonoBehaviour
     private void GenerateWalls()
     {
         GameObject generateObject;
-        for (int y = 0; y < _currentField.GetLength(0); y++)
+        for (int y = 0; y < CurrentField.GetLength(0); y++)
         {
-            for (int x = 0; x < _currentField.GetLength(1); x++)
+            for (int x = 0; x < CurrentField.GetLength(1); x++)
             {
-                if (_currentField[y, x] == (int)FieldObject.Wall)
+                if (CurrentField[y, x] == (int)FieldObject.Wall)
                 {
                     generateObject = Instantiate(_wallPrefab, this.transform);
                     generateObject.transform.position = new Vector3(x, 0, -y);
@@ -83,12 +87,12 @@ public class FieldController : MonoBehaviour
     /// </summary>
     private void SearchRow()
     {
-        for (int y = 0; y < _currentField.GetLength(0); y++)
+        for (int y = 0; y < CurrentField.GetLength(0); y++)
         {
             int wallCount = 0;
-            for (int x = 0; x < _currentField.GetLength(1); x++)
+            for (int x = 0; x < CurrentField.GetLength(1); x++)
             {
-                if (_currentField[y, x] == (int)FieldObject.Wall)
+                if (CurrentField[y, x] == (int)FieldObject.Wall)
                 {
                     wallCount++;
                 }
@@ -105,7 +109,7 @@ public class FieldController : MonoBehaviour
 
             if (wallCount > 1)
             {
-                GenerateMargeWall(y, _currentField.GetLength(1) - wallCount, wallCount, true);
+                GenerateMargeWall(y, CurrentField.GetLength(1) - wallCount, wallCount, true);
             }
         }
     }
@@ -115,12 +119,12 @@ public class FieldController : MonoBehaviour
     /// </summary>
     private void SearchColumn()
     {
-        for (int x = 0; x < _currentField.GetLength(1); x++)
+        for (int x = 0; x < CurrentField.GetLength(1); x++)
         {
             int wallCount = 0;
-            for (int y = 0; y < _currentField.GetLength(0); y++)
+            for (int y = 0; y < CurrentField.GetLength(0); y++)
             {
-                if (_currentField[y, x] == (int)FieldObject.Wall)
+                if (CurrentField[y, x] == (int)FieldObject.Wall)
                 {
                     wallCount++;
                 }
@@ -137,7 +141,7 @@ public class FieldController : MonoBehaviour
 
             if (wallCount > 1)
             {
-                GenerateMargeWall(_currentField.GetLength(0) - wallCount, x, wallCount, false);
+                GenerateMargeWall(CurrentField.GetLength(0) - wallCount, x, wallCount, false);
             }
         }
     }

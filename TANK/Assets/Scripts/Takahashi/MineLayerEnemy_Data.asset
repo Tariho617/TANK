@@ -13,4 +13,12 @@ MonoBehaviour:
   m_Name: MineLayerEnemy_Data
   m_EditorClassIdentifier: 
   _enemyShotCoolTime: 0
+  _enemyShotSpped: 0
   _enemyMoveSpeed: 0
+  _changeDirectionTime: 0
+  _randomMoveRange: 0
+  _targetReachedThreshold: 0
+  _enemyMaxPoolCount: 0
+  _enemyShotDisplayTime: 0
+  _checkPlayerPosTime: 0
+  _resetStateTime: 0
